@@ -1,5 +1,5 @@
 SOHT - Socket over HTTP Application in GoLang
-====
+----
 
 Pseudo-port of original Java/.Net SOHT application: http://www.ericdaugherty.com/dev/soht
 
