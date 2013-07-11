@@ -4,8 +4,10 @@ import (
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
+	"log"
 	"net/http"
 	"net/url"
+	"os"
 	"testing"
 )
 
@@ -93,4 +95,15 @@ func TestOpenSimple(t *testing.T) {
 			t.Errorf("Server unable to open connection. Desc: %v", openResponse.ErrorDesc)
 		}
 	}
+}
+
+func BenchmarkOpenConnectionGoogle(b *testing.B) {
+	noopWriter := NoopWriter{}	
+	log.SetOutput(noopWriter)
+
+	for n := 0; n < b.N; n++ {
+		openConnection("google.com", 80)
+	}
+	
+	log.SetOutput(os.Stderr)
 }

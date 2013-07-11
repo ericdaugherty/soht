@@ -2,7 +2,6 @@ package main
 
 import (
 	"encoding/json"
-	"fmt"
 	"html/template"
 	"log"
 	"net"
@@ -52,12 +51,12 @@ func rootHandler(w http.ResponseWriter, req *http.Request) {
 		return
 	}
 	if req.Method == "GET" {
-		fmt.Printf("Request made to %v returning 404.\n", req.URL)
+		log.Printf("Request made to %v returning 404.\n", req.URL)
 		http.NotFound(w, req)
 		return
 	}
 	req.ParseForm()
-	fmt.Printf("Request Parms: %v\n", req.Form)
+	log.Printf("Request Parms: %v\n", req.Form)
 	values := req.PostForm
 	action := values.Get("action")
 	jsonBody := values.Get("body")
@@ -88,7 +87,7 @@ func rootHandler(w http.ResponseWriter, req *http.Request) {
 		
 		w.Write(responseBody)
 	default:
-		fmt.Println("Unknown Command")
+		log.Println("Unknown Command")
 		http.Error(w, "Unknown Command", 400)
 	}
 }
@@ -100,10 +99,10 @@ func adminHandler(w http.ResponseWriter, req *http.Request) {
 func openConnection(host string, port uint16) OpenResponse {
 
 	var address string = host + ":" + strconv.FormatUint(uint64(port), 10)
-	fmt.Println("Opening address:" , address)
+	log.Println("Opening address:" , address)
 	conn, err := net.Dial("tcp", address)
 	if err != nil {
-		fmt.Println("Open Failed", err)
+		log.Println("Open Failed", err)
 		return OpenResponse { false, 0, err.Error() }
 	}
 	connId := <-counter
