@@ -10,6 +10,7 @@ var serverflag bool
 var clientflag bool
 var debugFlag bool
 var serverAddr string
+var portMapping string
 
 type NoopWriter struct {
 }
@@ -22,7 +23,8 @@ func init() {
 	flag.BoolVar(&serverflag, "server", false, "Run as server")
 	flag.BoolVar(&clientflag, "client", false, "Run as client")
 	flag.BoolVar(&debugFlag, "debug", false, "Output Debug Log to stderr")
-	flag.StringVar(&serverAddr, "addr", ":8080", "Address to listen on")
+	flag.StringVar(&serverAddr, "addr", ":8080", "Address of the server to listen on or connect to")
+	flag.StringVar(&portMapping, "portmap", "", "Port mapping to use.  Format: local port:server addr:server port")
 }
 
 func main() {
@@ -47,9 +49,6 @@ func main() {
 	}
 	if clientflag {
 		fmt.Println("Running in client mode.")
-		client()
+		runClient(serverAddr, portMapping)
 	}
-}
-
-func client() {
 }
